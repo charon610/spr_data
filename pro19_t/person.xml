@@ -4,7 +4,7 @@
 <beans>
 	<!--<bean>태그를 이용해 PersonServiceImpl 객체를 생성한 후 빈 id를 personService로 지정  -->
 	<bean id="personService" class="com.spring.ex01.PersonServiceImpl"> 
-		<!--  -->
+		<!--PersonServiceImpl 객체의 속성 name 값을 <value> 태그를 이요해 '홍길동'으로 초기화  -->
 		<property name="name">
 			<value>홍길동</value>
 		</property>
