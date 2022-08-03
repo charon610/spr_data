@@ -21,31 +21,29 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.myspring.pro30_t.member.service.MemberService;
 import com.myspring.pro30_t.member.vo.MemberVO;
 
-
-
 @Controller("memberController")
 @EnableAspectJAutoProxy
-public class MemberControllerImpl   implements MemberController {
+public class MemberControllerImpl implements MemberController {
 //	private static final Logger logger = LoggerFactory.getLogger(MemberControllerImpl.class);
 	@Autowired
 	private MemberService memberService;
 	@Autowired
-	MemberVO memberVO ;
-	
-	 @RequestMapping(value = { "/","/main.do"}, method = RequestMethod.GET)
-	 private ModelAndView main(HttpServletRequest request, HttpServletResponse response) {
-	 String viewName = (String)request.getAttribute("viewName");
-	 ModelAndView mav = new ModelAndView();
-	 mav.setViewName(viewName);
-	 return mav; }
+	MemberVO memberVO;
 
-	
+	@RequestMapping(value = { "/", "/main.do" }, method = RequestMethod.GET)
+	private ModelAndView main(HttpServletRequest request, HttpServletResponse response) {
+		String viewName = (String) request.getAttribute("viewName");
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName(viewName);
+		return mav;
+	}
+
 	@Override
-	@RequestMapping(value="/member/listMembers.do" ,method = RequestMethod.GET)
+	@RequestMapping(value = "/member/listMembers.do", method = RequestMethod.GET)
 	public ModelAndView listMembers(HttpServletRequest request, HttpServletResponse response) throws Exception {
 //		String viewName = getViewName(request);
-		String viewName = (String)request.getAttribute("viewName");
-		//System.out.println("viewName: " +viewName);
+		String viewName = (String) request.getAttribute("viewName");
+		// System.out.println("viewName: " +viewName);
 //		logger.info("viewName: "+ viewName);
 //		logger.debug("viewName: "+ viewName);
 		List membersList = memberService.listMembers();
@@ -55,36 +53,36 @@ public class MemberControllerImpl   implements MemberController {
 	}
 
 	@Override
-	@RequestMapping(value="/member/addMember.do" ,method = RequestMethod.POST)
-	public ModelAndView addMember(@ModelAttribute("member") MemberVO member,
-			                  HttpServletRequest request, HttpServletResponse response) throws Exception {
+	@RequestMapping(value = "/member/addMember.do", method = RequestMethod.POST)
+	public ModelAndView addMember(@ModelAttribute("member") MemberVO member, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
 		request.setCharacterEncoding("utf-8");
 		int result = 0;
 		result = memberService.addMember(member);
 		ModelAndView mav = new ModelAndView("redirect:/member/listMembers.do");
 		return mav;
 	}
-	
+
 	@Override
-	@RequestMapping(value="/member/removeMember.do" ,method = RequestMethod.GET)
-	public ModelAndView removeMember(@RequestParam("id") String id, 
-			           HttpServletRequest request, HttpServletResponse response) throws Exception{
+	@RequestMapping(value = "/member/removeMember.do", method = RequestMethod.GET)
+	public ModelAndView removeMember(@RequestParam("id") String id, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
 		request.setCharacterEncoding("utf-8");
 		memberService.removeMember(id);
 		ModelAndView mav = new ModelAndView("redirect:/member/listMembers.do");
 		return mav;
 	}
 	/*
-	@RequestMapping(value = { "/member/loginForm.do", "/member/memberForm.do" }, method =  RequestMethod.GET)
-	@RequestMapping(value = "/member/*Form.do", method =  RequestMethod.GET)
-	public ModelAndView form(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String viewName = getViewName(request);
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName(viewName);
-		return mav;
-	}
-	*/
-	
+	 * @RequestMapping(value = { "/member/loginForm.do", "/member/memberForm.do" },
+	 * method = RequestMethod.GET)
+	 * 
+	 * @RequestMapping(value = "/member/*Form.do", method = RequestMethod.GET)
+	 * public ModelAndView form(HttpServletRequest request, HttpServletResponse
+	 * response) throws Exception { String viewName = getViewName(request);
+	 * ModelAndView mav = new ModelAndView(); mav.setViewName(viewName); return mav;
+	 * }
+	 */
+
 	@Override
 	@RequestMapping(value = "/member/login.do", method = RequestMethod.POST)
 	public ModelAndView login(@ModelAttribute("member") MemberVO member,
@@ -96,7 +94,13 @@ public class MemberControllerImpl   implements MemberController {
 		    HttpSession session = request.getSession();
 		    session.setAttribute("member", memberVO);
 		    session.setAttribute("isLogOn", true);
-		    mav.setViewName("redirect:/member/listMembers.do");
+		    String action = (String)session.getAttribute("action");
+		    session.removeAttribute("action");
+		    if(action!=null) {
+		    	mav.setViewName("redirect:"+action);
+		    }else {	
+		    	mav.setViewName("redirect:/member/listMembers.do");
+		    }
 	}else {
 		    rAttr.addAttribute("result","loginFailed");
 		    mav.setViewName("redirect:/member/loginForm.do");
@@ -105,7 +109,7 @@ public class MemberControllerImpl   implements MemberController {
 	}
 
 	@Override
-	@RequestMapping(value = "/member/logout.do", method =  RequestMethod.GET)
+	@RequestMapping(value = "/member/logout.do", method = RequestMethod.GET)
 	public ModelAndView logout(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		HttpSession session = request.getSession();
 		session.removeAttribute("member");
@@ -113,20 +117,19 @@ public class MemberControllerImpl   implements MemberController {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("redirect:/member/listMembers.do");
 		return mav;
-	}	
+	}
 
-	@RequestMapping(value = "/member/*Form.do", method =  RequestMethod.GET)
-	private ModelAndView form(@RequestParam(value= "result", required=false) String result,
-						       HttpServletRequest request, 
-						       HttpServletResponse response) throws Exception {
-		//String viewName = getViewName(request);
-		String viewName = (String)request.getAttribute("viewName");
+	@RequestMapping(value = "/member/*Form.do", method = RequestMethod.GET)
+	private ModelAndView form(@RequestParam(value = "result", required = false) String result,
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		// String viewName = getViewName(request);
+		String viewName = (String) request.getAttribute("viewName");
 		ModelAndView mav = new ModelAndView();
-		mav.addObject("result",result);
+		mav.addObject("result", result);
 		mav.setViewName(viewName);
 		return mav;
 	}
-	
+
 	/*
 	 * private String getViewName(HttpServletRequest request) throws Exception {
 	 * String contextPath = request.getContextPath(); String uri = (String)

@@ -102,5 +102,6 @@ public class ArticleVO {
 	public void setWriteDate(Date writeDate) {
 		this.writeDate = writeDate;
 	}
+
 	
 }

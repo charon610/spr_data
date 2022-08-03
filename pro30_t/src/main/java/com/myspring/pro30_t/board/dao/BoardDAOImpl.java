@@ -13,6 +13,7 @@ import com.myspring.pro30_t.board.vo.ArticleVO;
 import com.myspring.pro30_t.board.vo.ImageVO;
 
 
+
 @Repository("boardDAO")
 public class BoardDAOImpl implements BoardDAO {
 	@Autowired
@@ -24,7 +25,7 @@ public class BoardDAOImpl implements BoardDAO {
 		return articlesList;
 	}
 
-	
+
 	@Override
 	public int insertNewArticle(Map articleMap) throws DataAccessException {
 		int articleNO = selectNewArticleNO();
@@ -32,9 +33,12 @@ public class BoardDAOImpl implements BoardDAO {
 		sqlSession.insert("mapper.board.insertNewArticle",articleMap);
 		return articleNO;
 	}
-    
-	//다중 파일 업로드
-	/*
+	
+	private int selectNewArticleNO() throws DataAccessException {
+		return sqlSession.selectOne("mapper.board.selectNewArticleNO");
+	}
+
+
 	@Override
 	public void insertNewImage(Map articleMap) throws DataAccessException {
 		List<ImageVO> imageFileList = (ArrayList)articleMap.get("imageFileList");
@@ -46,14 +50,17 @@ public class BoardDAOImpl implements BoardDAO {
 		}
 		sqlSession.insert("mapper.board.insertNewImage",imageFileList);
 	}
+
+	private int selectNewImageFileNO() throws DataAccessException {
+		return sqlSession.selectOne("mapper.board.selectNewImageFileNO");
+	}
 	
-   */
 	
 	@Override
 	public ArticleVO selectArticle(int articleNO) throws DataAccessException {
 		return sqlSession.selectOne("mapper.board.selectArticle", articleNO);
 	}
-
+	
 	@Override
 	public void updateArticle(Map articleMap) throws DataAccessException {
 		sqlSession.update("mapper.board.updateArticle", articleMap);
@@ -64,7 +71,7 @@ public class BoardDAOImpl implements BoardDAO {
 		sqlSession.delete("mapper.board.deleteArticle", articleNO);
 		
 	}
-	
+
 	@Override
 	public List selectImageFileList(int articleNO) throws DataAccessException {
 		List<ImageVO> imageFileList = null;
@@ -72,12 +79,4 @@ public class BoardDAOImpl implements BoardDAO {
 		return imageFileList;
 	}
 	
-	private int selectNewArticleNO() throws DataAccessException {
-		return sqlSession.selectOne("mapper.board.selectNewArticleNO");
-	}
-	
-	private int selectNewImageFileNO() throws DataAccessException {
-		return sqlSession.selectOne("mapper.board.selectNewImageFileNO");
-	}
-
 }

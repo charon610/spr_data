@@ -33,15 +33,15 @@ public class BoardServiceImpl  implements BoardService{
 	}
 	
 	 //다중 이미지 추가하기
-	/*
-	@Override
-	public int addNewArticle(Map articleMap) throws Exception{
-		int articleNO = boardDAO.insertNewArticle(articleMap);
-		articleMap.put("articleNO", articleNO);
-		boardDAO.insertNewImage(articleMap);
-		return articleNO;
-	}
-	*/
+
+//	@Override
+//	public int addNewArticle(Map articleMap) throws Exception{
+//		int articleNO = boardDAO.insertNewArticle(articleMap);
+//		articleMap.put("articleNO", articleNO);
+//		boardDAO.insertNewImage(articleMap);
+//		return articleNO;
+//	}
+
 	/*
 	//다중 파일 보이기
 	@Override
