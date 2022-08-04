@@ -299,83 +299,60 @@ public class BoardControllerImpl  implements BoardController{
   */
   
 /*
-  //다중 이미지 글 추가하기
-  @Override
-  @RequestMapping(value="/board/addNewArticle.do" ,method = RequestMethod.POST)
-  @ResponseBody
-  public ResponseEntity  addNewArticle(MultipartHttpServletRequest multipartRequest, HttpServletResponse response) throws Exception {
-	multipartRequest.setCharacterEncoding("utf-8");
-	String imageFileName=null;
-	
-	Map articleMap = new HashMap();
-	Enumeration enu=multipartRequest.getParameterNames();
-	while(enu.hasMoreElements()){
-		String name=(String)enu.nextElement();
-		String value=multipartRequest.getParameter(name);
-		articleMap.put(name,value);
-	}
-	
-	//로그인 시 세션에 저장된 회원 정보에서 글쓴이 아이디를 얻어와서 Map에 저장합니다.
-	HttpSession session = multipartRequest.getSession();
-	MemberVO memberVO = (MemberVO) session.getAttribute("member");
-	String id = memberVO.getId();
-	articleMap.put("id",id);
-	articleMap.put("parentNO", 0);
-	
-	List<String> fileList =upload(multipartRequest);
-	List<ImageVO> imageFileList = new ArrayList<ImageVO>();
-	if(fileList!= null && fileList.size()!=0) {
-		for(String fileName : fileList) {
-			ImageVO imageVO = new ImageVO();
-			imageVO.setImageFileName(fileName);
-			imageFileList.add(imageVO);
-		}
-		articleMap.put("imageFileList", imageFileList);
-	}
-	String message;
-	ResponseEntity resEnt=null;
-	HttpHeaders responseHeaders = new HttpHeaders();
-    responseHeaders.add("Content-Type", "text/html; charset=utf-8");
-	try {
-		int articleNO = boardService.addNewArticle(articleMap);
-		if(imageFileList!=null && imageFileList.size()!=0) {
-			for(ImageVO  imageVO:imageFileList) {
-				imageFileName = imageVO.getImageFileName();
-				File srcFile = new File(ARTICLE_IMAGE_REPO+"\\"+"temp"+"\\"+imageFileName);
-				File destDir = new File(ARTICLE_IMAGE_REPO+"\\"+articleNO);
-				//destDir.mkdirs();
-				FileUtils.moveFileToDirectory(srcFile, destDir,true);
-			}
-		}
-		    
-		message = "<script>";
-		message += " alert('새글을 추가했습니다.');";
-		message += " location.href='"+multipartRequest.getContextPath()+"/board/listArticles.do'; ";
-		message +=" </script>";
-	    resEnt = new ResponseEntity(message, responseHeaders, HttpStatus.CREATED);
-	    
-		 
-	}catch(Exception e) {
-		if(imageFileList!=null && imageFileList.size()!=0) {
-		  for(ImageVO  imageVO:imageFileList) {
-		  	imageFileName = imageVO.getImageFileName();
-			File srcFile = new File(ARTICLE_IMAGE_REPO+"\\"+"temp"+"\\"+imageFileName);
-		 	srcFile.delete();
-		  }
-		}
-
-		
-		message = " <script>";
-		message +=" alert('오류가 발생했습니다. 다시 시도해 주세요');');";
-		message +=" location.href='"+multipartRequest.getContextPath()+"/board/articleForm.do'; ";
-		message +=" </script>";
-		resEnt = new ResponseEntity(message, responseHeaders, HttpStatus.CREATED);
-		e.printStackTrace();
-	}
-	return resEnt;
-  }
-	
-*/
+ * //다중 이미지 글 추가하기
+ * 
+ * @Override
+ * 
+ * @RequestMapping(value="/board/addNewArticle.do" ,method = RequestMethod.POST)
+ * 
+ * @ResponseBody public ResponseEntity addNewArticle(MultipartHttpServletRequest
+ * multipartRequest, HttpServletResponse response) throws Exception {
+ * multipartRequest.setCharacterEncoding("utf-8"); String imageFileName=null;
+ * 
+ * Map articleMap = new HashMap(); Enumeration
+ * enu=multipartRequest.getParameterNames(); while(enu.hasMoreElements()){
+ * String name=(String)enu.nextElement(); String
+ * value=multipartRequest.getParameter(name); articleMap.put(name,value); }
+ * 
+ * //로그인 시 세션에 저장된 회원 정보에서 글쓴이 아이디를 얻어와서 Map에 저장합니다. HttpSession session =
+ * multipartRequest.getSession(); MemberVO memberVO = (MemberVO)
+ * session.getAttribute("member"); String id = memberVO.getId();
+ * articleMap.put("id",id); articleMap.put("parentNO", 0);
+ * 
+ * List<String> fileList =upload(multipartRequest); List<ImageVO> imageFileList
+ * = new ArrayList<ImageVO>(); if(fileList!= null && fileList.size()!=0) {
+ * for(String fileName : fileList) { ImageVO imageVO = new ImageVO();
+ * imageVO.setImageFileName(fileName); imageFileList.add(imageVO); }
+ * articleMap.put("imageFileList", imageFileList); } String message;
+ * ResponseEntity resEnt=null; HttpHeaders responseHeaders = new HttpHeaders();
+ * responseHeaders.add("Content-Type", "text/html; charset=utf-8"); try { int
+ * articleNO = boardService.addNewArticle(articleMap); if(imageFileList!=null &&
+ * imageFileList.size()!=0) { for(ImageVO imageVO:imageFileList) { imageFileName
+ * = imageVO.getImageFileName(); File srcFile = new
+ * File(ARTICLE_IMAGE_REPO+"\\"+"temp"+"\\"+imageFileName); File destDir = new
+ * File(ARTICLE_IMAGE_REPO+"\\"+articleNO); //destDir.mkdirs();
+ * FileUtils.moveFileToDirectory(srcFile, destDir,true); } }
+ * 
+ * message = "<script>"; message += " alert('새글을 추가했습니다.');"; message +=
+ * " location.href='"+multipartRequest.getContextPath()
+ * +"/board/listArticles.do'; "; message +=" </script>"; resEnt = new
+ * ResponseEntity(message, responseHeaders, HttpStatus.CREATED);
+ * 
+ * 
+ * }catch(Exception e) { if(imageFileList!=null && imageFileList.size()!=0) {
+ * for(ImageVO imageVO:imageFileList) { imageFileName =
+ * imageVO.getImageFileName(); File srcFile = new
+ * File(ARTICLE_IMAGE_REPO+"\\"+"temp"+"\\"+imageFileName); srcFile.delete(); }
+ * }
+ * 
+ * 
+ * message = " <script>"; message +=" alert('오류가 발생했습니다. 다시 시도해 주세요');');";
+ * message +=" location.href='"+multipartRequest.getContextPath()
+ * +"/board/articleForm.do'; "; message +=" </script>"; resEnt = new
+ * ResponseEntity(message, responseHeaders, HttpStatus.CREATED);
+ * e.printStackTrace(); } return resEnt; }
+ * 
+ */
 
 	
 

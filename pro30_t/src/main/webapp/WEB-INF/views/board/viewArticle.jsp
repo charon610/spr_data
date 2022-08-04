@@ -7,8 +7,9 @@
 <c:set var="article"  value="${articleMap.article}"  />
 <c:set var="imageFileList"  value="${articleMap.imageFileList}"  />
 
-
+<% 
   request.setCharacterEncoding("UTF-8");
+%>
 
 <head>
    <meta charset="UTF-8">
