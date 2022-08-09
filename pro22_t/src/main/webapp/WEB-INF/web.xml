@@ -6,7 +6,7 @@
 
 	<!--여러 설정 파일을 읽어 들이기 위해 스프링의 ContextLoaderListner를 설정. -->
 	<listener>
-		<listener-class>org.springframework.web.context.ContextLoaderListner</listener-class>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
 
 	<context-param>
