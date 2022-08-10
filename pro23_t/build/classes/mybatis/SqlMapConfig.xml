@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+   <typeAliases>
+      <typeAlias type="com.spring.ex01.MemberVO" alias="memberVO"/>
+      <!--DAO에서 SQL문으로 값을 전달할 때 또는 SQL문을 실행한 후 가져온 값을 DAO로 전달할 때 사용할 빈을 생성.  -->
+   </typeAliases>
+
+   <environments default="development">
+     <environment id="development">
+        <transactionManager type="JDBC"/>
+        <dataSource  type="POOLED">
+            <property name="driver"  value="oracle.jdbc.driver.OracleDriver" />
+            <property  name="url"    value="JDBC:oracle:thin:@localhost:1521:XE" />
+            <property name="username" value="bg" />
+            <property name="password"  value="bg" />        
+        </dataSource>
+     </environment>
+   </environments>
+
+<mappers>
+   <mapper resource="mybatis/mappers/member.xml"/>
+</mappers>
+</configuration>
